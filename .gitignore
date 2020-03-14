@@ -1,0 +1,9 @@
+virtual/
+*.pyc
+.env
+.vscode/*
+__pycache__/
+db.sqlite3
+.swp
+media/
+images/
