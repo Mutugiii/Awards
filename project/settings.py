@@ -156,6 +156,14 @@ CORS_ORIGIN_WHITELIST = (
 
 CORS_ALLOW_CREDENTIALS = True
 
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+    'api.utils.custom_jwt_response_handler'
+}
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+
 # CORS_ALLOW_HEADERS = (
 #         'x-requested-with',
 #         'content-type',
