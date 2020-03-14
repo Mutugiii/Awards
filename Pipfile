@@ -11,6 +11,8 @@ djangorestframework = "*"
 cloudinary = "*"
 psycopg2-binary = "*"
 python-decouple = "*"
+django-cors-headers = "*"
+djangorestframework-jwt = "*"
 
 [requires]
 python_version = "3.6"

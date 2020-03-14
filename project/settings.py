@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'api',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DBNAME'),
         'USER': config('DBUSER'),
         'PASSWORD': config('DBPASSWORD'),
@@ -133,6 +134,36 @@ cloudinary.config(
   api_key = os.environ.get('API_KEY'),
   api_secret = os.environ.get('API_SECRET'),
 )
+
+#Rest framework Configurations
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'
+    ), 
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.SessionAuthentication', 
+        'rest_framework_jwt.authentication.BasisAuthentication',
+    )
+}
+
+# Set up whitelist and configs to support CORS
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ALLOW_HEADERS = (
+#         'x-requested-with',
+#         'content-type',
+#         'accept',
+#         'origin',
+#         'authorization',
+#         'x-csrftoken'
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
