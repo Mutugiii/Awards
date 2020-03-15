@@ -109,4 +109,15 @@ class ProfileDetailView(APIView):
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SearchProfileListView(APIView):
-    pass
+    permission_classes = [IsAuthenticated]
+
+    def get_projects(self, search_term):
+        try:
+            return Project.objects.filter(title__icontains=search_term)
+        except Project.DoesNotExist:
+            return Http404
+
+    def get(self, request, search_term, format=None):
+        projects = get_projects(search_term)
+        serializers = UserProjectSerializer(projects)
+        return Response(serializers.data)
