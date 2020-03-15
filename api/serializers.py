@@ -5,9 +5,10 @@ from .models import Profile, Project
 
 class GetUserSerializer(serializers.ModelSerializer):
     '''Serializer for handling GET request when user is logging in'''
+    email = serializers.EmailField()
     class Meta:
         model = User
-        fields = ('id', 'username', 'is_superuser', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email', 'is_superuser', 'first_name', 'last_name')
 
 class PostUserSerializer(serializers.ModelSerializer):
     '''Serializer for handling POST requests when registering a new user'''
