@@ -10,9 +10,9 @@ class GetUserSerializer(serializers.ModelSerializer):
 
 class PostUserSerializer(serializers.ModelSerializer):
     '''Serializer for handling POST requests when registering a new user'''
-
     # Handling conversions & Validating the input values
     # Custom token for every time user requests login
+    email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
     token = serializers.SerializerMethodField()
 
@@ -31,6 +31,7 @@ class PostUserSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         user = User.objects.create(
             username = validated_data['username'],
+            email = validated_data['email'],
             first_name = validated_data['first_name'],
             last_name = validated_data['last_name'],
         )
@@ -40,4 +41,4 @@ class PostUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'first_name', 'last_name')
+        fields = ('token', 'username', 'email', 'password', 'first_name', 'last_name')

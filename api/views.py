@@ -23,4 +23,4 @@ class CreateUser(APIView):
             saved_user = serializer.save()
         else:
             return Response({'response':'error', 'message': serializer.errors})
-        return Response('response':'success','message':'User Created Successfully')
+        return Response({'response':'success','message':'User Created Successfully'})
