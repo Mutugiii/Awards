@@ -30,3 +30,15 @@ class Profile(models.Model):
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+class Rating(models.Model):
+    '''Model class for rating values'''
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='rating')
+    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name='projectrating')
+    design = models.IntegerField()
+    usability = models.IntegerField()
+    content = models.IntegerField()
+
+    def __str__(self):
+        return self.user.design

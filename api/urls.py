@@ -10,4 +10,5 @@ urlpatterns = [
     path('project/<int:pk>', ProjectsDetailView.as_view(), name='specificproject'),
     path('profile/', ProfileListView.as_view(), name='createprofile'),
     path('profile/<int:id>', ProfileDetailView.as_view(), name='specificprofle'),
+    path('search/<str:search_term>', SearchProfileListView.as_view(), name='searchprojects'),
 ]

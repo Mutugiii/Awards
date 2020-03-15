@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.settings import api_settings
 from django.contrib.auth.models import User
-from .models import Profile, Project
+from .models import Profile, Project, Rating
 
 class GetUserSerializer(serializers.ModelSerializer):
     '''Serializer for handling GET request when user is logging in'''
@@ -58,4 +58,12 @@ class UserProjectSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Project
+        fields = '__all__'
+
+class RatingSerializer(serializers.ModelSerializer):
+    '''Serializer class for ratings class'''
+    user = serializers.StringRelatedField(read_only=True)
+    project = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = Rating
         fields = '__all__'

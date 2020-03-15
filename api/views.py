@@ -1,10 +1,10 @@
-from .serializers import GetUserSerializer, PostUserSerializer, UserProfileSerializer, UserProjectSerializer
+from .serializers import GetUserSerializer, PostUserSerializer, UserProfileSerializer, UserProjectSerializer, RatingSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import permissions, status
 from rest_framework.permissions import IsAuthenticated
-from .models import Profile, Project
+from .models import Profile, Project, Rating
 from .permissions import IsOwnerProfileOrReadOnly
 from django.shortcuts import Http404
 
@@ -121,3 +121,29 @@ class SearchProfileListView(APIView):
         projects = get_projects(search_term)
         serializers = UserProjectSerializer(projects)
         return Response(serializers.data)
+
+
+class RatingListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_project(self, id):
+        try:
+            return Project.objects.get(pk=id)
+        except Project.DoesNotExist:
+            return Http404
+
+    def get(self, request, id, format=None):
+        profile = self.get_project(id)
+        serializers = RatingSerializer(profile)
+        return Response(serializers.data)
+    
+    def post(self, request, id, format=None):
+        project = get_project(id)
+        ratings = Rating.objects.get(projectratings = project.id)
+        serializers = RatingSerializer(ratings)
+        if serializers.is_valid():
+            user = self.request.user
+            serializers.save(user=user, project = project)
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
