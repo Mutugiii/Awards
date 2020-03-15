@@ -1,0 +1,7 @@
+Hello {{name}}
+
+Welcome to the Awards.
+
+As you know Awards is a platform that allows you to rate and post past projects
+
+This is an automated email to confirm that your email is succesfully signed up to our platform

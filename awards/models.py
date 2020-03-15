@@ -53,7 +53,6 @@ class Profile(models.Model, CrudMethods):
     profile_bio = models.TextField()
     contact_info = models.EmailField()
     joined = models.DateTimeField(auto_now_add=True)
-    projects = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     @classmethod
     def get_profile_by_id(cls, profile_id):

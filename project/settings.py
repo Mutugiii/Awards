@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'awards',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -149,11 +150,11 @@ REST_FRAMEWORK = {
 }
 
 # Set up whitelist and configs to support CORS
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+# )
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -178,4 +179,7 @@ LOGIN_REDIRECT_URL = 'index'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
