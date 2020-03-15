@@ -1,5 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, loader
 
 def index(request):
     '''Index View Function'''
-    return HttpResponse('This is not a Test!!!')
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
