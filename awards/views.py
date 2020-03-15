@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile, Project, Rating
 from .email import send_welcome_email
+from .forms import SignUpForm, ProfileForm
 
 def signup(request):
     '''View Function for user signup'''

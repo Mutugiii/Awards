@@ -1,0 +1,13 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+{% include 'layout/navbar.html' %}
+<div class="container">
+    <br>
+    <h4 class="text-center">Create a Profile</h4>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'layout/form.html' %}
+        <button type="submit" class="btn btn-outline-secondary btn-block">Log in</button>
+    </form>
+</div>
+{% endblock %}

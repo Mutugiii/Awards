@@ -21,15 +21,14 @@ class Profile(models.Model):
     profile_picture = CloudinaryField('image')
     profile_bio = models.TextField()
     contact_info = models.EmailField()
-    projects = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
 
 
 class Rating(models.Model):
