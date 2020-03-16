@@ -20,7 +20,7 @@ class CrudMethods:
 
 class Project(models.Model, CrudMethods):
     '''Model class for Projects tha user posts'''
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='awardproject')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='awardproject')
     title = models.CharField(max_length=50)
     project_image = CloudinaryField('avatar')
     description = models.TextField()
@@ -62,11 +62,12 @@ class Profile(models.Model, CrudMethods):
 
 class Rating(models.Model, CrudMethods):
     '''Model class for rating values'''
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='awardrating')
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name='awardprojectrating')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='awardrating')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='awardprojectrating')
     design = models.IntegerField()
     usability = models.IntegerField()
     content = models.IntegerField()
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.design

@@ -56,12 +56,12 @@ class ProjectsDetailView(APIView):
             return Http404
 
     def get(self, request, id, format=None):
-        project = get_project(id)
+        project = self.get_project(id)
         serializers = UserProjectSerializer(project)
         return Response(serializers.data)
 
     def put(self, request, id, format=None):
-        project = get_project(id)
+        project = self.get_project(id)
         serializers = UserProfileSerializer(project, request.data)
         if serializers.is_valid():
             serializers.save()
@@ -70,7 +70,7 @@ class ProjectsDetailView(APIView):
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, id, format=None):
-        project = get_project(id)
+        project = self.get_project(id)
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -118,7 +118,7 @@ class SearchProfileListView(APIView):
             return Http404
 
     def get(self, request, search_term, format=None):
-        projects = get_projects(search_term)
+        projects = self.get_projects(search_term)
         serializers = UserProjectSerializer(projects)
         return Response(serializers.data)
 
@@ -138,7 +138,7 @@ class RatingListView(APIView):
         return Response(serializers.data)
     
     def post(self, request, id, format=None):
-        project = get_project(id)
+        project = self.get_project(id)
         ratings = Rating.objects.get(projectratings = project.id)
         serializers = RatingSerializer(ratings)
         if serializers.is_valid():

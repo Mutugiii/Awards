@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 
 class Project(models.Model):
     '''Model class for Projects tha user posts'''
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='project')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project')
     title = models.CharField(max_length=50)
     project_image = CloudinaryField('image')
     description = models.TextField()
@@ -33,8 +33,8 @@ class Profile(models.Model):
 
 class Rating(models.Model):
     '''Model class for rating values'''
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='rating')
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name='projectrating')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='projectrating')
     design = models.IntegerField()
     usability = models.IntegerField()
     content = models.IntegerField()

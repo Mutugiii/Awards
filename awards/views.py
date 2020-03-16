@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile, Project, Rating
 from .email import send_welcome_email
-from .forms import SignUpForm, ProfileForm, ProjectForm
+from .forms import SignUpForm, ProfileForm, ProjectForm, RatingForm
 
 def signup(request):
     '''View Function for user signup'''
@@ -103,8 +103,40 @@ def search_project(request):
 def specificproject(request, project_id):
     '''View function to get  specific post'''
     project = Project.get_project_by_id(project_id)
+    userrating = Rating.objects.filter(user = request.user).first()
+    # Calculating user rating scores
+    design = Rating.objects.filter(project = project.id).values_list('design', flat=True)
+    usability = Rating.objects.filter(project = project.id).values_list('usability', flat=True)
+    content = Rating.objects.filter(project = project.id).values_list('content', flat=True)
+    design_sum = 0
+    usability_sum = 0
+    content_sum = 0
+    for score in design:
+        design_sum+=score
+    for score in usability:
+        usability_sum+=score
+    for score in content:
+        content_sum+=score
+    total = int((design_sum + content_sum + usability_sum)/3)
+
     template = loader.get_template('project/project.html')
     context = {
-        'project': project
+        'project': project,
+        'rating': total,
+        'userrating': userrating,
     }
     return HttpResponse(template.render(context, request))
+
+@login_required(login_url='/login/')
+def rate_project(request, project_id):
+    '''View function to rate a project'''
+    project = Project.get_project_by_id(project_id)
+    if 'design' and 'usability' and 'content' in request.GET and request.GET['design']:
+        rating = Rating(design = request.GET.get('design'), usability = request.GET.get('usability'), content = request.GET.get('content'))
+        rating.user = request.user
+        rating.project = project
+        rating.status = True
+        rating.save()
+        return redirect('specificproject', project_id)
+    else:
+        return redirect('index')

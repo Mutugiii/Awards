@@ -10,9 +10,61 @@
             <img src="{{project.project_image.url}}" class="card-img img-responsive hovercard"
                 style="max-width: 600px;padding: 13px;border-radius: 30px;">
             <span class="text-center">{{project.description}}</span>
-            <br>
+            <br><br>
             <a href='{{project.live_link}}' style="font-weight:900;">Live Link</a>
+            <br><br>
+            <p>Rating Score: {{rating}}</p>
         </div>
+        {% if userrating.status == null  or userrating.status == False or userrating.design == 0%}
+        <div class="col-md-8">
+            <h5 class="text-center">Give a rating</h5>
+            <form action="{% url 'rate' project.id %}" method="GET" class="my-2 my-lg-0">
+                {% csrf_token %}
+                <div>
+                    <select class="custom-select" name="design">
+                        <option value='0' selected>Design</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <select class="custom-select" name="usability">
+                        <option value='0' selected>Usability</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <select class="custom-select" name="content">
+                        <option value='0' selected>Content</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Rate</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
     </div>
     <br>
 </div>
