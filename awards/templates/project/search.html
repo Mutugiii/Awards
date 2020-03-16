@@ -1,0 +1,21 @@
+{% include 'layout/base.html' %}
+{% block content %}
+{% if users %}
+<div class="container">
+    <div class="text-center" style="font-size: 2rem;">Search Results</div>
+    <hr>
+</div>
+{% for project in projects %}
+<div class="container">
+    <div class="text-center">
+        <a href="">{{project.title}}</a>
+    </div>
+    <hr>
+</div>
+{% endfor %}
+{% else %}
+<div class="container">
+    <p>There is no Project matching the search term</p>
+</div>
+{% endif %}
+{% endblock %}

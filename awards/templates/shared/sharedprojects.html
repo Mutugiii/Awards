@@ -1,27 +1,26 @@
 {% if projects %}
-{% for project in projects %}
 <br>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="text-center">{{project.title}}</h5>
-                    <a href="">
-                        <img src="{{project.project_image.url}}" class="card-img img-responsive hovercard"
-                            style="max-width: 600px; max-height: 500px; padding: 13px;border-radius: 30px;">
-                    </a>
-                </div>
-                <div class="card-footer text-muted">
-                    <span class="text-center">{{project.description}}</span>
-                    <a href='{{project.live_link}}' style="font-weight:900">Live Link</a>
-                </div>
+<div class="row">
+    <div class="col-md-4">
+        {% for project in projects %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="text-center">{{project.title}}</h5>
+                <a href="">
+                    <img src="{{project.project_image.url}}" class="card-img img-responsive hovercard"
+                        style="max-width: 600px; max-height: 500px; padding: 13px;border-radius: 30px;">
+                </a>
+            </div>
+            <div class="card-footer text-muted">
+                <span class="text-center">{{project.description}}</span>
+                <br>
+                <a href='{{project.live_link}}' style="font-weight:900">Live Link</a>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 <br>
-{% endfor %}
 {% else %}
 <p class="text-center">Sorry there are no recent projects</p>
 {% endif %}

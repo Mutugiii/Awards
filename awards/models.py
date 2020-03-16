@@ -37,7 +37,7 @@ class Project(models.Model, CrudMethods):
     @classmethod
     def search_project(cls, search_term):
         '''Search for a  project by a search term'''
-        projects = cls.objects.filter(title__icontains = search_term)
+        projects = cls.objects.filter(title__icontains = search_term).all()
         return projects
 
     def __str__(self):

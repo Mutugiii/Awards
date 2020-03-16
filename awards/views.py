@@ -81,3 +81,16 @@ def create_project(request):
         'form': form,
     }
     return HttpResponse(template.render(context, request))
+
+def search_project(request):
+    '''View function to search for projects'''
+    if 'searchprojects' in request.GET and request.GET['searchprojects']:
+        search_term = request.GET.get('searchprojects')
+        projects = Project.search_project(search_term)
+        template = loader.get_template('search.html')
+        context = {
+            'projects': projects
+        }
+        return HttpResponse(template.render(context, request))  
+    else:
+        return redirect('index')
