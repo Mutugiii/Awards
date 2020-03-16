@@ -1,0 +1,36 @@
+{% include 'layout/base.html' %}
+{% block styles%}
+<style>
+    #avatar {
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        background-position: top center;
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Profile</h3>
+    <div>
+        <div class="text-center">
+            <img src="{{profile.profile_picture.url}}" id="avatar">
+            <br>
+            {{profile.user.username}}
+            <br><br>
+            <div>
+                Contact Information: <span style="font-weight: bolder;">{{profile.contact_info}}</span>
+            </div>
+            <br>
+            <span style="font-weight: 900;">Bio:</span>
+            <div>
+                {{profile.profile_bio}}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- User Posts -->
+    {% include 'shared/sharedprojects.html' %}
+</div>
+{% endblock %}

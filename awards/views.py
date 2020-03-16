@@ -32,6 +32,12 @@ def logout_user(request):
 
     return redirect(index)
 
+def index(request):
+    '''Index View Function'''
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
 def create_profile(request):
     '''View function for user to create their profile'''
     if request.method=="POST":
@@ -45,10 +51,13 @@ def create_profile(request):
         form = ProfileForm()
     return render(request, 'registration/profile.html',{"form":form})
 
-
-@login_required(login_url='/login/')
-def index(request):
-    '''Index View Function'''
-    template = loader.get_template('index.html')
-    context = {}
+def profile(request):
+    '''View Function to get the users Profile'''
+    profile = Profile.objects.filter(user=request.user).first()
+    projects = Project.objects.filter(user=request.user).all()
+    template = loader.get_template('profile.html')
+    context = {
+        'projects': projects,
+        'profile': profile,
+    }
     return HttpResponse(template.render(context, request))
