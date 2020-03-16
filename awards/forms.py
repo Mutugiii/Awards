@@ -6,6 +6,7 @@ from cloudinary.forms import CloudinaryFileField
 
 
 class SignUpForm(UserCreationForm):
+    '''Form class to sign up a user'''
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())    
     class Meta:
         model = User
@@ -13,6 +14,7 @@ class SignUpForm(UserCreationForm):
         
 
 class ProfileForm(forms.ModelForm):
+    '''Form class to create a new profile'''
     profile_picture = CloudinaryFileField(
         options = {
             'folder': 'awards'
@@ -21,3 +23,14 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('profile_picture','profile_bio','contact_info')
+
+class ProjectForm(forms.ModelForm):
+    '''Form class to create a new post'''
+    project_image = CloudinaryFileField(
+        options = {
+            'folder': 'awards'
+        }
+    )
+    class Meta:
+        model = Project
+        fields = ('title', 'project_image', 'description', 'live_link')

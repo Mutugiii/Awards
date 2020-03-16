@@ -1,0 +1,14 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+{% include 'layout/navbar.html' %}
+<div class="container">
+    <br>
+    <h4 class="text-center">Post a Project</h4>
+    <form method="post" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'layout/form.html' %}
+        <button type="submit" class="btn btn-outline-secondary btn-block">Post</button>
+    </form>
+    <br>
+</div>
+{% endblock %}

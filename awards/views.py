@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile, Project, Rating
 from .email import send_welcome_email
-from .forms import SignUpForm, ProfileForm
+from .forms import SignUpForm, ProfileForm, ProjectForm
 
 def signup(request):
     '''View Function for user signup'''
@@ -35,7 +35,10 @@ def logout_user(request):
 def index(request):
     '''Index View Function'''
     template = loader.get_template('index.html')
-    context = {}
+    projects = Project.objects.all()
+    context = {
+        'projects': projects,
+    }
     return HttpResponse(template.render(context, request))
 
 def create_profile(request):
@@ -49,7 +52,7 @@ def create_profile(request):
             return redirect('index')
     else:
         form = ProfileForm()
-    return render(request, 'registration/profile.html',{"form":form})
+    return render(request, 'new/profile.html',{"form":form})
 
 def profile(request):
     '''View Function to get the users Profile'''
@@ -59,5 +62,22 @@ def profile(request):
     context = {
         'projects': projects,
         'profile': profile,
+    }
+    return HttpResponse(template.render(context, request))
+
+def create_project(request):
+    '''View Function to create a project post'''
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = request.user
+            project.save()
+            return redirect('index')
+    else:
+        form = ProjectForm()
+    template = loader.get_template('new/project.html')
+    context = {
+        'form': form,
     }
     return HttpResponse(template.render(context, request))
