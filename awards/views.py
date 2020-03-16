@@ -41,6 +41,7 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url='/login/')
 def create_profile(request):
     '''View function for user to create their profile'''
     if request.method=="POST":
@@ -54,6 +55,7 @@ def create_profile(request):
         form = ProfileForm()
     return render(request, 'new/profile.html',{"form":form})
 
+@login_required(login_url='/login/')
 def profile(request):
     '''View Function to get the users Profile'''
     profile = Profile.objects.filter(user=request.user).first()
@@ -65,6 +67,7 @@ def profile(request):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url='/login/')
 def create_project(request):
     '''View Function to create a project post'''
     if request.method == 'POST':
@@ -82,15 +85,26 @@ def create_project(request):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url='/login/')
 def search_project(request):
     '''View function to search for projects'''
     if 'searchprojects' in request.GET and request.GET['searchprojects']:
         search_term = request.GET.get('searchprojects')
         projects = Project.search_project(search_term)
-        template = loader.get_template('search.html')
+        template = loader.get_template('project/search.html')
         context = {
             'projects': projects
         }
-        return HttpResponse(template.render(context, request))  
+        return HttpResponse(template.render(context, request))
     else:
         return redirect('index')
+
+@login_required(login_url='/login/')
+def specificproject(request, project_id):
+    '''View function to get  specific post'''
+    project = Project.get_project_by_id(project_id)
+    template = loader.get_template('project/project.html')
+    context = {
+        'project': project
+    }
+    return HttpResponse(template.render(context, request))

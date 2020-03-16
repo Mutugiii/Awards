@@ -31,7 +31,7 @@ class Project(models.Model, CrudMethods):
     @classmethod
     def get_project_by_id(cls, post_id):
         '''Classmethod to get a post by the given id'''
-        project = Post.objects.filter(id = post_id).first()
+        project = cls.objects.filter(id = post_id).first()
         return project
 
     @classmethod
