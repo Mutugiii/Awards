@@ -64,9 +64,9 @@ class Rating(models.Model, CrudMethods):
     '''Model class for rating values'''
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='awardrating')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='awardprojectrating')
-    design = models.IntegerField()
-    usability = models.IntegerField()
-    content = models.IntegerField()
+    design = models.IntegerField(default=0)
+    usability = models.IntegerField(default=0)
+    content = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
 
     def __str__(self):
