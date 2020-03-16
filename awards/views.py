@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from .models import Profile, Project, Rating
 from .email import send_welcome_email
 from .forms import SignUpForm, ProfileForm, ProjectForm, RatingForm
+from .serializers import ProfileSerializer, ProjectSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 
 def signup(request):
     '''View Function for user signup'''
@@ -103,7 +108,8 @@ def search_project(request):
 def specificproject(request, project_id):
     '''View function to get  specific post'''
     project = Project.get_project_by_id(project_id)
-    userrating = Rating.objects.filter(user = request.user).first()
+    userrating = Rating.objects.filter(user = request.user, project=project.id).first()
+    print(userrating)
     # Calculating user rating scores
     design = Rating.objects.filter(project = project.id).values_list('design', flat=True)
     usability = Rating.objects.filter(project = project.id).values_list('usability', flat=True)
@@ -140,3 +146,51 @@ def rate_project(request, project_id):
         return redirect('specificproject', project_id)
     else:
         return redirect('index')
+
+class ProjectList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+
+    def get(self, request, format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serialiers = ProjectSerializer(data=request.data)
+        if serialiers.is_valid():
+            serialiers.save()
+            return Response(serialiers.data, status=status.HTTP_201_CREATED)
+        return Response(serialiers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProjectDescription(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get_project(self, pk):
+        try:
+            return Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return Http404
+
+    def get(self, request, pk, format=None):
+        merch = self.get_project(pk)
+        serializers = ProjectSerializer(merch)
+        return Response(serializers.data)
+
+    def put(self, request, pk, format=None):
+        project = self.get_project(pk)
+        serializers = ProjectSerializer(project, request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None):
+        project = self.get_project(pk)
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class ProfileList(APIView):
+    def get(self, request, format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles, many=True)
+        return Response(serializers.data)
