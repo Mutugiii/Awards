@@ -16,17 +16,24 @@ A python django app that allows a user to post their projects and have them rate
 ## Clone
     
 ```bash
-    git clone https://github.com/mutugiii/Pinstagram.git
+    git clone https://github.com/mutugiii/Awards.git
     
 ```
 ##  Create virtual environment
 ```bash
     pipenv shell
-    
 ```
+
+## Install all the dependencies
+```
+    pipenv install
+```
+
+####  Add all the environmental variables in a .env file at the project root
+
 ## Run initial migration
 ```bash
-   $ python3.6 manage.py makemigrations instagram
+   $ python3.6 manage.py makemigrations awards
    $ python3.6 manage.py migrate
     
 ```
